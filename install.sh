@@ -34,7 +34,7 @@ grep -qe "^#ParallelDownloads" $PACMAN_CONF_FILE && (
   sudo pacman-key --lsign-key 3056513887B78AEB
   sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
   sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' 
-  sudo cat <<EOL >> $PACMAN_CONF_FILE
+  sudo cat <<EOL | sudo tee -a $PACMAN_CONF_FILE
 
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
@@ -49,7 +49,9 @@ echo "Setup Fish"
 )
 ! is_installed fisher && (
   echo "Installing Fisher"
+  fish
   curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+  exit
 )
 FISHER_PLUGINS="
 ilancosman/tide@v6
