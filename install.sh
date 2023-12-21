@@ -70,6 +70,9 @@ DEPENDENCIES="
 echo "Install dependencies"
 sudo pacman -S $DEPENDENCIES
 
+echo "Set fish the default terminal"
+chsh -s /bin/fish
+
 # == GNOME TERMINAL
 echo "Setup gnome terminal TODO"
 
