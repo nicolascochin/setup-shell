@@ -39,6 +39,9 @@ grep -qe "^#ParallelDownloads" $PACMAN_CONF_FILE && (
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
 EOL
+
+  echo "Updating DB"
+  sudo pacman -Sy
 )
 
 # ===== Fish ====== 
