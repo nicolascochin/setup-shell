@@ -20,11 +20,11 @@ echo "Setup yay"
 )
 PACMAN_CONF_FILE=/etc/pacman.conf
 grep -qe "^#Color" $PACMAN_CONF_FILE && (
-  echo "Activating Colors for pacman / yay
+  echo "Activating Colors for pacman / yay"
   sudo sed -i 's/^#\(Color\)/\1/' $PACMAN_CONF_FILE
 )
 grep -qe "^#ParallelDownloads" $PACMAN_CONF_FILE && (
-  echo "Activating ParallelDownloads for pacman / yay
+  echo "Activating ParallelDownloads for pacman / yay"
   sudo sed -i 's/^#\(ParallelDownloads\)/\1/' $PACMAN_CONF_FILE
 )
 # Chaotic aur
@@ -49,9 +49,7 @@ echo "Setup Fish"
 )
 ! is_installed fisher && (
   echo "Installing Fisher"
-  fish
-  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-  exit
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 )
 FISHER_PLUGINS="
 ilancosman/tide@v6
@@ -60,7 +58,7 @@ patrickf1/fzf.fish
 "
 for PLUGIN in $FISHER_PLUGINS; do 
   echo "Install plugin $PLUGIN"
-  fisher install $PLUGIN
+  fish -c "fisher install $PLUGIN"
 end
 
 DEPENDENCIES="
