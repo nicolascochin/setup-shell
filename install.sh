@@ -12,6 +12,64 @@ function is_installed {
   fi
 }
 
+# ===== YAY/PACMAN ====== 
+echo "Setup yay"
+! is_installed yay && (
+  echo "Installing yay"
+  sudo pacman -S yay
+)
+PACMAN_CONF_FILE=/etc/pacman.conf
+grep -qe "^#Color" $PACMAN_CONF_FILE && (
+  echo "Activating Colors for pacman / yay
+  sudo sed -i 's/^#\(Color\)/\1/' $PACMAN_CONF_FILE
+)
+# Chaotic aur
+! grep -qe "^\[chaotic-aur\]" $PACMAN_CONF_FILE && (
+  echo "Installing chaotic-aur"
+  sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+  sudo pacman-key --lsign-key 3056513887B78AEB
+  sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+  sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' 
+  sudo cat <<EOL >> $PACMAN_CONF_FILE
+
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+EOL
+)
+
+# ===== Fish ====== 
+echo "Setup Fish"
+! is_installed fish && (
+  echo "Installing Fish"
+  sudo pacman -S fish
+)
+! is_installed fisher && (
+  echo "Installing Fisher"
+  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+)
+FISHER_PLUGINS="
+ilancosman/tide@v6
+dracula/fish
+patrickf1/fzf.fish
+"
+for PLUGIN in $FISHER_PLUGINS; do 
+  echo "Install plugin $PLUGIN"
+  fisher install $PLUGIN
+end
+
+DEPENDENCIES="
+  fzf
+  fd
+  bat
+  bat-extras
+"
+echo "Install dependencies"
+sudo pacman -S $DEPENDENCIES
+
+# == GNOME TERMINAL
+echo "Setup gnome terminal TODO"
+
+
 # ===== GITHUB CLI ====== 
 echo "Setup GitHub CLI"
 ! is_installed gh && (
