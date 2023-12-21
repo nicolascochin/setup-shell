@@ -12,7 +12,13 @@ function is_installed {
   fi
 }
 
+/* ===== GITHUB CLI ====== */
+echo "Setup GitHub CLI"
 ! is_installed gh && (
   echo "Installing GitHub CLI"
   sudo pacman -S github-cli
 )
+if [[ $(gh auth status 2>&1 /dev/null) =~ "not logged" ]]; then 
+  echo "You are log logged in"
+  gh auth login 
+fi
