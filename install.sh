@@ -18,7 +18,7 @@ echo "Setup GitHub CLI"
   echo "Installing GitHub CLI"
   sudo pacman -S github-cli
 )
-if [[ $(gh auth status 2>&1 /dev/null) =~ "not logged" ]]; then 
-  echo "You are logged in"
+if [[ $(gh auth status 2>&1) =~ "not logged" ]]; then 
+  echo "You are not logged in"
   gh auth login 
 fi
