@@ -23,6 +23,10 @@ grep -qe "^#Color" $PACMAN_CONF_FILE && (
   echo "Activating Colors for pacman / yay
   sudo sed -i 's/^#\(Color\)/\1/' $PACMAN_CONF_FILE
 )
+grep -qe "^#ParallelDownloads" $PACMAN_CONF_FILE && (
+  echo "Activating ParallelDownloads for pacman / yay
+  sudo sed -i 's/^#\(ParallelDownloads\)/\1/' $PACMAN_CONF_FILE
+)
 # Chaotic aur
 ! grep -qe "^\[chaotic-aur\]" $PACMAN_CONF_FILE && (
   echo "Installing chaotic-aur"
