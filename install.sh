@@ -59,7 +59,7 @@ patrickf1/fzf.fish
 for PLUGIN in $FISHER_PLUGINS; do 
   echo "Install plugin $PLUGIN"
   fish -c "fisher install $PLUGIN"
-end
+done
 
 DEPENDENCIES="
   fzf
