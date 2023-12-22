@@ -110,3 +110,15 @@ for i in $(find $CONFIG_DIR  -maxdepth 1 -type f); do ln -sf $i; done
     ln -sf $i 
   done
 )
+
+# == Install fish plugins
+echo "Update / Install fish plugins"
+fish -c "fisher update"
+
+# == NEOVIM
+echo "Install neovim"
+sudo pacman -S neovim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# git clone https://github.com/github/copilot.vim.git ~/.config/nvim/pack/github/start/copilot.vim
