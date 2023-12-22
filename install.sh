@@ -2,6 +2,8 @@
 
 [ ! -f /etc/arch-release ] && echo "This script only runs on arch linux" && exit 1
 
+SETUP_DIR=/setup
+
 # $1 == cmd
 function is_installed {
   if command -v $1 > /dev/null; then 
@@ -44,6 +46,21 @@ EOL
   sudo pacman -Sy
 )
 
+# ===== GITHUB CLI ====== 
+echo "Setup GitHub CLI"
+! is_installed gh && (
+  echo "Installing GitHub CLI"
+  sudo pacman -S github-cli
+)
+if [[ $(gh auth status 2>&1) =~ "not logged" ]]; then 
+  echo "You are not logged in"
+  gh auth login 
+fi
+
+# ==== Clone project
+sudo mkdir $SETUP_DIR
+gh repo clone nicolascochin/setup-shell $SETUP_DIR
+
 # ===== Fish ====== 
 echo "Setup Fish"
 ! is_installed fish && (
@@ -54,15 +71,15 @@ echo "Setup Fish"
   echo "Installing Fisher"
   fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 )
-FISHER_PLUGINS="
-ilancosman/tide@v6
-dracula/fish
-patrickf1/fzf.fish
-"
-for PLUGIN in $FISHER_PLUGINS; do 
-  echo "Install plugin $PLUGIN"
-  fish -c "fisher install $PLUGIN"
-done
+#FISHER_PLUGINS="
+#ilancosman/tide@v6
+#dracula/fish
+#patrickf1/fzf.fish
+#"
+#for PLUGIN in $FISHER_PLUGINS; do 
+#  echo "Install plugin $PLUGIN"
+#  fish -c "fisher install $PLUGIN"
+#done
 
 DEPENDENCIES="
   fzf
@@ -77,16 +94,7 @@ echo "Set fish the default terminal"
 chsh -s /bin/fish
 
 # == GNOME TERMINAL
-echo "Setup gnome terminal TODO"
+echo "Setup gnome terminal"
+dconf load /org/gnome/terminal/legacy/profiles:/ < $SETUP_DIR/gnome-terminal-profiles.dconf
 
-
-# ===== GITHUB CLI ====== 
-echo "Setup GitHub CLI"
-! is_installed gh && (
-  echo "Installing GitHub CLI"
-  sudo pacman -S github-cli
-)
-if [[ $(gh auth status 2>&1) =~ "not logged" ]]; then 
-  echo "You are not logged in"
-  gh auth login 
-fi
+# == CONFIG FILES 
