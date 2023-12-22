@@ -1,0 +1,21 @@
+[user]
+  name = Nicolas COCHIN
+  email = github@account.rocks
+[color]
+  ui = true
+[pull]
+  rebase = true
+[help]
+  autocorrect = 1
+[core]
+  editor = nvim
+[merge]
+  tool = meld
+[diff]
+  tool = meld
+[difftool]
+  prompt = false
+[difftool "meld"]
+  cmd =  flatpak run --filesystem=/tmp org.gnome.Meld "$LOCAL" "$REMOTE" 
+[mergetool "meld"]
+  cmd =  flatpak run --filesystem=/tmp org.gnome.Meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
