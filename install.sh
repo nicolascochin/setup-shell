@@ -99,7 +99,14 @@ dconf load /org/gnome/terminal/legacy/profiles:/ < $SETUP_DIR/gnome-terminal-pro
 # == CONFIG FILES 
 CONFIG_DIR=$SETUP_DIR/config
 # Conf Files (root level) 
-for i in $(find $CONFIG_DIR  -maxdepth 1 -type f); do ln -sf $i done
+for i in $(find $CONFIG_DIR  -maxdepth 1 -type f); do ln -sf $i; done
 
 # Config files (.config folder)
-sh -c 'cd .config && for i in $(find $CONFIG_DIR/.config  -maxdepth 1 -name "[a-z]*"); do echo "==> $i"; done'
+(
+  cd ~/.config
+  for i in $(find $CONFIG_DIR/.config  -maxdepth 1 -name "[a-z]*"); do 
+    NAME=$(basename $i)
+    rm -rf $NAME
+    ln -sf $i 
+  done
+)
