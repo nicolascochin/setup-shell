@@ -97,7 +97,7 @@ echo "Setup gnome terminal"
 dconf load /org/gnome/terminal/legacy/profiles:/ < $SETUP_DIR/gnome-terminal-profiles.dconf
 
 # == CONFIG FILES 
-CONFIG_DIR= $SETUP_DIR/config
+CONFIG_DIR=$SETUP_DIR/config
 # Conf Files (root level) 
 for i in $(find $CONFIG_DIR  -maxdepth 1 -type f); do ln -sf $i done
 
