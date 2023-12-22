@@ -2,7 +2,7 @@
 
 [ ! -f /etc/arch-release ] && echo "This script only runs on arch linux" && exit 1
 
-SETUP_DIR=/setup
+SETUP_DIR=~/.setup
 
 # $1 == cmd
 function is_installed {
@@ -58,7 +58,6 @@ if [[ $(gh auth status 2>&1) =~ "not logged" ]]; then
 fi
 
 # ==== Clone project
-sudo mkdir $SETUP_DIR
 gh repo clone nicolascochin/setup-shell $SETUP_DIR
 
 # ===== Fish ====== 
